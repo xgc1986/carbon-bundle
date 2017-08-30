@@ -1,3 +1,6 @@
+[![Latest Stable Version](https://poser.pugx.org/xgc/carbon-bundle/v/stable)](https://packagist.org/packages/xgc/carbon-bundle)
+[![License](https://poser.pugx.org/xgc/carbon-bundle/license)](https://packagist.org/packages/xgc/carbon-bundle)
+
 # Xgc CarbonBundle
 
 A doctrine custom mapping for <a href='https://github.com/briannesbitt/Carbon' target='_blank'>nesbot/carbon</a>

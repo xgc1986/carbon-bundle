@@ -46,7 +46,10 @@ Type::addType('carbon', CarbonType::class);
 <?php
 declare(strict_types=1);
 // src/AppBundle/Entity/MyEntity
-//...
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 class MyEntity {
 //...
@@ -57,3 +60,9 @@ class MyEntity {
 //...
 }
 ```
+
+## WIP
+
+* Add configuration for locale with symfony
+* Create "carbon_date" type
+* Build a stable version

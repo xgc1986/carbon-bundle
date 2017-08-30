@@ -1,43 +1,59 @@
-# Php Config
+# Xgc CarbonBundle
 
-A quick access to php.ini values
+A doctrine custom mapping for <a href='https://github.com/briannesbitt/Carbon' target='_blank'>nesbot/carbon</a>
 
 ## Installation
 
 ```bash
-$ composer require xgc/php-config
+$ composer require xgc/carbon-bundle
 ```
+
+### With Symfony
+
+```php
+<?php
+// app/AppKernel.php
+
+public function registerBundles()
+{
+    return array(
+        // ...
+
+        new Xgc\CarbonBundle\CarbonBundle(),
+
+        // ...
+    );
+}
+```
+
+### With Doctrine only
+
+```php
+<?php
+declare(strict_types=1);
+
+use Doctrine\DBAL\Types\Type;
+use Xgc\CarbonBundle\Type\CarbonType;
+
+Type::addType('carbon', CarbonType::class);
+
+```
+
 
 ## Usage
 
 ```php
 <?php
 declare(strict_types=1);
+// src/AppBundle/Entity/MyEntity
+//...
 
-use Xgc\PhpConfig\Config;
-
-/*
- * Return the maximum file that can be uploaded in bytes
- */
-echo Config::uploadMaxFileSize();
-// 2097152
-
-/*
- * Return the maximum post size in bytes
- */
-echo Config::postMaxSize();
-// 8388608
-
-/*
- * Returns the value as is in php.ini
- */
-echo Config::load(Config::POST_MAX_SIZE);
-// 8M
-
-/*
- * Other example
- */
-echo Config::load('session.name');
-// PHPSESSID
-
+class MyEntity {
+//...
+    /**
+     * @ORM\Column(type="carbon") 
+     */
+    private $dateTime;
+//...
+}
 ```

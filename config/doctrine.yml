@@ -1,0 +1,7 @@
+doctrine:
+  dbal:
+    mapping_types:
+      carbon: datetime
+
+    types:
+      carbon: Xgc\CarbonBundle\Type\CarbonType

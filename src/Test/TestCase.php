@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Xgc\PhpConfig\Test;
+namespace Xgc\CarbonBundle\Test;
 
 use Faker\Factory;
 use Faker\Generator;
@@ -12,14 +12,4 @@ use Faker\Generator;
  */
 class TestCase extends \PHPUnit\Framework\TestCase
 {
-
-    /**
-     * @param string $locale
-     *
-     * @return Generator
-     */
-    public static function faker(string $locale = 'es_ES'): Generator
-    {
-        return Factory::create($locale);
-    }
 }

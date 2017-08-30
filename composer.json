@@ -1,10 +1,10 @@
 {
-  "name": "xgc/php-config",
+  "name": "xgc/carbon-bundle",
   "license": "MIT",
-  "description": "A quick access to php.ini values",
+  "description": "A symfony adaptation of <a href='https://github.com/briannesbitt/Carbon' target='_blank'>nesbot/carbon</a>",
   "keywords": [
-    "php",
-    "php.ini"
+    "carbon",
+    "symfony"
   ],
   "authors": [
     {
@@ -19,7 +19,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Xgc\\PhpConfig\\": "src/"
+      "Xgc\\CarbonBundle\\": "src/"
     }
   },
   "autoload-dev": {
@@ -32,11 +32,17 @@
   },
   "require": {
     "php": ">=7.1",
-    "fzaninotto/faker": "^1.7"
+    "fzaninotto/faker": "^1.7",
+    "nesbot/carbon": "^1.22",
+    "symfony/yaml": "^3.3",
+    "symfony/dependency-injection": "^3.3",
+    "doctrine/doctrine-bundle": "^1.7"
   },
   "require-dev": {
-    "bruli/php-git-hooks": "~5.1",
-    "phpunit/phpunit": "~6.2"
+    "bruli/php-git-hooks": "^5.1",
+    "phpunit/phpunit": "^6.2",
+    "mockery/mockery": "^0.9.9",
+    "matthiasnoback/symfony-dependency-injection-test": "^2.1"
   },
   "scripts": {
     "post-install-cmd": [
@@ -44,6 +50,15 @@
     ],
     "post-update-cmd": [
       "PhpGitHooks\\Infrastructure\\Composer\\ConfiguratorScript::buildConfig"
+    ]
+  },
+  "archive": {
+    "exclude": [
+      "!vendor",
+      "tests",
+      "*phpunit.xml",
+      ".travis.yml",
+      "php-git-hooks.yml"
     ]
   }
 }

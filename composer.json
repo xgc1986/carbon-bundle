@@ -1,10 +1,12 @@
 {
   "name": "xgc/carbon-bundle",
   "license": "MIT",
-  "description": "A symfony adaptation of <a href='https://github.com/briannesbitt/Carbon' target='_blank'>nesbot/carbon</a>",
+  "description": "A doctrine adaptation of <a href='https://github.com/briannesbitt/Carbon' target='_blank'>nesbot/carbon</a>",
   "keywords": [
     "carbon",
-    "symfony"
+    "symfony",
+    "doctrine",
+    "dbal"
   ],
   "authors": [
     {
@@ -26,9 +28,7 @@
     "psr-4": {
       "Tests\\": "tests/"
     },
-    "files": [
-      "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
-    ]
+    "files": []
   },
   "require": {
     "php": ">=7.1",
@@ -41,7 +41,6 @@
   "require-dev": {
     "bruli/php-git-hooks": "^5.1",
     "phpunit/phpunit": "^6.2",
-    "mockery/mockery": "^0.9.9",
     "matthiasnoback/symfony-dependency-injection-test": "^2.1"
   },
   "scripts": {

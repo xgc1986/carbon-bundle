@@ -108,7 +108,7 @@ class CarbonParamConverter implements ParamConverterInterface
     private function getCarbon(?string $format, string $value, string $param): Carbon
     {
         try {
-            if ($format) {
+            if ($format !== null) {
                 return Carbon::createFromFormat($format, $value);
             }
 

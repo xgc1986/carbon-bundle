@@ -101,10 +101,9 @@ public function listPostsAction(Carbon $date) {
 // 3rd February
 ```
 
-
 ## WIP
 
 * Add configuration for locale with symfony
-* Create "carbon_date" type
+* Create "carbon_date" type (forms & doctrine)
 * ~~Build a stable version~~
-* Add carbon for Symfony Forms
+* ~~Add carbon for Symfony Forms~~

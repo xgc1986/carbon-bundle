@@ -76,7 +76,7 @@ class CarbonType extends Type
 
         try {
             $carbon = Carbon::createFromFormat($platform->getDateTimeFormatString(), $value);
-        } catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $e) {
             throw ConversionException::conversionFailedFormat(
                 $value,
                 $this->getName(),

@@ -24,12 +24,12 @@ class CarbonExtensionTest extends AbstractExtensionTestCase
             [
                 'dbal' => [
                     'mapping_types' => [
-                        'carbon' => 'datetime',
+                        'carbon' => 'datetime'
                     ],
                     'types'         => [
-                        'carbon' => CarbonType::class,
-                    ],
-                ],
+                        'carbon' => CarbonType::class
+                    ]
+                ]
             ],
             $this->container->getExtensionConfig('doctrine')[0]
         );
@@ -47,7 +47,7 @@ class CarbonExtensionTest extends AbstractExtensionTestCase
 
         return [
             new CarbonExtension(),
-            new DoctrineExtension(),
+            new DoctrineExtension()
         ];
     }
 }

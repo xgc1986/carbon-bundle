@@ -22,9 +22,10 @@ public function registerBundles()
     return array(
         // ...
 
+        new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+        new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+        
         new Xgc\CarbonBundle\CarbonBundle(),
-
-        // ...
     );
 }
 ```

@@ -96,10 +96,6 @@ public function listPostsAction(Carbon $date) {
     //...
 }
 
-// This will accept ATOM, COOKIE, RFC822, ISO8601, RFC850, RFC1036
-// RFC1123, RFC2822, RFC3339, RFC3339_EXTENDED, RFC7231, RSS, W3C, 
-// 'Y-m-d H:i:s', 'd-m-Y H:i:s', 'd-m-Y', 'Y-m-d', 'U'
-
 // i.e: /posts/2017-02-03
 // Carbon will know that is 2nd March, if you didn't add the format then it would be
 // 3rd February

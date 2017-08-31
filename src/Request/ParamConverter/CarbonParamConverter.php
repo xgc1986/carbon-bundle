@@ -31,34 +31,15 @@ class CarbonParamConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverter $configuration): bool
     {
-        $param = $configuration->getName();
-
-        if (!$request->attributes->has($param)) {
+        if (!$this->isValidInput($request, $configuration)) {
             return false;
         }
 
+        $param   = $configuration->getName();
         $options = $configuration->getOptions();
         $value   = $request->attributes->get($param);
-
-        if (!$value && $configuration->isOptional()) {
-            return false;
-        }
-
-        $format = $options['format'] ?? false;
-
-        if (!$format && \filter_var($value, \FILTER_VALIDATE_INT) !== false) {
-            $format = 'U';
-        }
-
-        try {
-            if ($format) {
-                $carbon = Carbon::createFromFormat($format, $value);
-            } else {
-                $carbon = new Carbon($value);
-            }
-        } catch (Exception $e) {
-            throw new NotFoundHttpException(\sprintf('Invalid date given for parameter "%s".', $param));
-        }
+        $format  = $this->loadFormat($options, $value);
+        $carbon  = $this->getCarbon($format, $value, $param);
 
         $request->attributes->set($param, $carbon);
 
@@ -79,5 +60,61 @@ class CarbonParamConverter implements ParamConverterInterface
         }
 
         return Carbon::class === $configuration->getClass();
+    }
+
+    /**
+     * @param Request        $request
+     * @param ParamConverter $configuration
+     *
+     * @return bool
+     */
+    private function isValidInput(Request $request, ParamConverter $configuration): bool
+    {
+        $param = $configuration->getName();
+
+        return !(
+            (!$request->attributes->has($param)) ||
+            (!$request->attributes->get($param) && $configuration->isOptional())
+        );
+    }
+
+    /**
+     * @param array  $options
+     *
+     * @param string $value
+     *
+     * @return null|string ;
+     */
+    private function loadFormat(array $options, string $value): ?string
+    {
+        $format = $options['format'] ?? null;
+
+        if (!$format && \filter_var($value, \FILTER_VALIDATE_INT) !== false) {
+            $format = 'U';
+        }
+
+        return $format;
+    }
+
+    /**
+     * @param null|string $format
+     * @param string      $value
+     * @param string      $param
+     *
+     * @return Carbon
+     *
+     * @throws NotFoundHttpException
+     */
+    private function getCarbon(?string $format, string $value, string $param): Carbon
+    {
+        try {
+            if ($format) {
+                return Carbon::createFromFormat($format, $value);
+            }
+
+            return new Carbon($value);
+        } catch (Exception $e) {
+            throw new NotFoundHttpException(\sprintf('Invalid date given for parameter "%s".', $param));
+        }
     }
 }

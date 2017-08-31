@@ -1,0 +1,25 @@
+language: php
+
+php:
+  - '7.1'
+
+env:
+  - COMPOSER_OPTS=""
+  - COMPOSER_OPTS="--prefer-lowest"
+
+before_script:
+  - composer self-update
+  - composer update
+
+notifications:
+  email:
+    - xgc1986@gmail.com
+
+build:
+  tests:
+    override:
+      -
+        command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
+        coverage:
+          file: 'coverage.clover'
+          format: 'clover'

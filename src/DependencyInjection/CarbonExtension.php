@@ -30,7 +30,8 @@ class CarbonExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
-        $loader->load(__DIR__ . '/../../config/doctrine.yml');
-        $loader->load(__DIR__ . '/../../config/form.yml');
+        $loader->load('form.yml');
+        $loader->load('doctrine.yml');
+        $loader->load('services.yml');
     }
 }

@@ -1,0 +1,5 @@
+services:
+  xgc.carbon_parameter:
+    class: Xgc\CarbonBundle\Request\ParamConverter\CarbonParamConverter
+    tags:
+      - { name: request.param_converter, priority: -2, converter: carbon_converter }

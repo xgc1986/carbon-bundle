@@ -14,16 +14,4 @@ use Xgc\CarbonBundle\DependencyInjection\CarbonExtension;
  */
 class CarbonBundle extends Bundle
 {
-    /**
-     * Returns the bundle's container extension.
-     *
-     * @return ExtensionInterface|null The container extension
-     *
-     * @throws LogicException
-     */
-    public function getContainerExtension(): ?ExtensionInterface
-    {
-        $this->extension = $this->extension ?? new CarbonExtension();
-        return $this->extension;
-    }
 }

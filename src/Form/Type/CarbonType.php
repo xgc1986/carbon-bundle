@@ -67,16 +67,14 @@ class CarbonType extends DateTimeType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $parts = ['year', 'month', 'day', 'hour'];
+        $parts     = ['year', 'month', 'day', 'hour'];
 
         if ($options['with_minutes']) {
             $parts[]     = 'minute';
-            $timeParts[] = 'minute';
         }
 
         if ($options['with_seconds']) {
             $parts[]     = 'second';
-            $timeParts[] = 'second';
         }
 
         $dateFormat = is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
@@ -100,6 +98,10 @@ class CarbonType extends DateTimeType
      */
     public function addArrayViewTransformer(FormBuilderInterface $builder, array $options)
     {
+        $parts     = ['year', 'month', 'day', 'hour'];
+        $dateParts = ['year', 'month', 'day'];
+        $timeParts = ['hour'];
+
         if ($options['with_minutes']) {
             $parts[]     = 'minute';
             $timeParts[] = 'minute';
@@ -109,10 +111,6 @@ class CarbonType extends DateTimeType
             $parts[]     = 'second';
             $timeParts[] = 'second';
         }
-
-        $parts     = ['year', 'month', 'day', 'hour'];
-        $dateParts = ['year', 'month', 'day'];
-        $timeParts = ['hour'];
 
         $dateOptions = array_intersect_key($options, array_flip(self::$dateOptions));
         $timeOptions = array_intersect_key($options, array_flip(self::$timeOptions));

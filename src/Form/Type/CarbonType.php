@@ -22,7 +22,7 @@ use Xgc\CarbonBundle\Form\DataTransformer\CarbonToDateTimeTransformer;
 /**
  * Class CarbonType
  *
- * @package Xgc\CarbonBundle\Form\Type
+ * @package Xgc\XgcCarbonBundle\Form\Type
  */
 class CarbonType extends DateTimeType
 {

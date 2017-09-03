@@ -6,9 +6,9 @@ namespace Xgc\CarbonBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class CarbonBundle
- * @package Xgc\CarbonBundle
+ * Class XgcCarbonBundle
+ * @package Xgc\XgcCarbonBundle
  */
-class CarbonBundle extends Bundle
+class XgcCarbonBundle extends Bundle
 {
 }

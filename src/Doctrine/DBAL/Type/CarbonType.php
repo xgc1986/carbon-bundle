@@ -13,7 +13,7 @@ use InvalidArgumentException;
 
 /**
  * Class CarbonType
- * @package Xgc\CarbonBundle\Type
+ * @package Xgc\XgcCarbonBundle\Type
  */
 class CarbonType extends Type
 {

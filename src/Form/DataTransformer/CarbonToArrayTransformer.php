@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToArrayTransfo
 /**
  * Class CarbonToArrayTransformer
  *
- * @package Xgc\CarbonBundle\Form\DataTransformer
+ * @package Xgc\XgcCarbonBundle\Form\DataTransformer
  */
 class CarbonToArrayTransformer extends DateTimeToArrayTransformer
 {

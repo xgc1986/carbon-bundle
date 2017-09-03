@@ -9,7 +9,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 /**
  * Class CarbonToDateTimeTransformer
- * @package Xgc\CarbonBundle\Form\DataTransformer
+ * @package Xgc\XgcCarbonBundle\Form\DataTransformer
  */
 class CarbonToDateTimeTransformer implements DataTransformerInterface
 {

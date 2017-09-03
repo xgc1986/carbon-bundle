@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class CarbonParamConverter
- * @package Xgc\CarbonBundle\Request
+ * @package Xgc\XgcCarbonBundle\Request
  */
 class CarbonParamConverter implements ParamConverterInterface
 {

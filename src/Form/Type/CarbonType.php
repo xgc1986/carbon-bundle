@@ -33,6 +33,29 @@ class CarbonType extends DateTimeType
         IntlDateFormatter::SHORT,
     ];
 
+    private static $dateOptions = [
+        'years', 'months', 'days',
+        'placeholder',
+        'choice_translation_domain',
+        'required',
+        'translation_domain',
+        'html5',
+        'invalid_message',
+        'invalid_message_parameters',
+    ];
+
+    private static $timeOptions = [
+        'hours', 'minutes', 'seconds',
+        'with_minutes', 'with_seconds',
+        'placeholder',
+        'choice_translation_domain',
+        'required',
+        'translation_domain',
+        'html5',
+        'invalid_message',
+        'invalid_message_parameters',
+    ];
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -86,47 +109,12 @@ class CarbonType extends DateTimeType
                 ));
             }
         } else {
-            // Only pass a subset of the options to children
-            $dateOptions = array_intersect_key($options, array_flip([
-                'years',
-                'months',
-                'days',
-                'placeholder',
-                'choice_translation_domain',
-                'required',
-                'translation_domain',
-                'html5',
-                'invalid_message',
-                'invalid_message_parameters',
-            ]));
+            $dateOptions = array_intersect_key($options, array_flip(self::$dateOptions));
+            $timeOptions = array_intersect_key($options, array_flip(self::$timeOptions));
 
-            $timeOptions = array_intersect_key($options, array_flip([
-                'hours',
-                'minutes',
-                'seconds',
-                'with_minutes',
-                'with_seconds',
-                'placeholder',
-                'choice_translation_domain',
-                'required',
-                'translation_domain',
-                'html5',
-                'invalid_message',
-                'invalid_message_parameters',
-            ]));
-
-            if (null !== $options['date_widget']) {
-                $dateOptions['widget'] = $options['date_widget'];
-            }
-
-            if (null !== $options['time_widget']) {
-                $timeOptions['widget'] = $options['time_widget'];
-            }
-
-            if (null !== $options['date_format']) {
-                $dateOptions['format'] = $options['date_format'];
-            }
-
+            $dateOptions['widget']         = $options['date_widget'] ?? null;
+            $timeOptions['widget']         = $options['time_widget'] ?? null;
+            $dateOptions['format']         = $options['date_format'] ?? null;
             $dateOptions['input']          = $timeOptions['input'] = 'array';
             $dateOptions['error_bubbling'] = $timeOptions['error_bubbling'] = true;
 
@@ -142,12 +130,12 @@ class CarbonType extends DateTimeType
                 ->add('time', TimeType::class, $timeOptions);
         }
 
-        if ('string' === $options['input'] || 'timestamp' === $options['input']) {
-            $builder->addModelTransformer(new CarbonToDateTimeTransformer());
-        } elseif ('array' === $options['input']) {
+        if ('array' === $options['input']) {
             $builder->addModelTransformer(new ReversedTransformer(
                 new CarbonToArrayTransformer($options['model_timezone'], $options['model_timezone'], $parts)
             ));
+        } else {
+            $builder->addModelTransformer(new CarbonToDateTimeTransformer());
         }
     }
 }

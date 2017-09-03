@@ -28,11 +28,12 @@ class CarbonToArrayTransformer extends DateTimeToArrayTransformer
     public function reverseTransform($value): ?Carbon
     {
         $dateTime = parent::reverseTransform($value);
+        $carbon = null;
 
         if ($dateTime) {
-            $dateTime = Carbon::instance($dateTime);
+            $carbon = Carbon::instance($dateTime);
         }
 
-        return $dateTime;
+        return $carbon;
     }
 }

@@ -67,27 +67,35 @@ class CarbonType extends DateTimeType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $parts     = ['year', 'month', 'day', 'hour'];
+        $parts = ['year', 'month', 'day', 'hour'];
 
         if ($options['with_minutes']) {
-            $parts[]     = 'minute';
+            $parts[] = 'minute';
         }
 
         if ($options['with_seconds']) {
-            $parts[]     = 'second';
+            $parts[] = 'second';
         }
 
         $dateFormat = is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
-
         $this->checkDateFormat($dateFormat);
+        $this->addViewTransformer($builder, $options);
+        $this->addModelTransformer($builder, $options, $parts);
+    }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     *
+     * @throws InvalidArgumentException
+     */
+    public function addViewTransformer(FormBuilderInterface $builder, array $options)
+    {
         if ('single_text' === $options['widget']) {
             $this->addSingleTextViewTransformer($builder, $options);
         } else {
             $this->addArrayViewTransformer($builder, $options);
         }
-
-        $this->addModelTransformer($builder, $options, $parts);
     }
 
     /**

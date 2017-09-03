@@ -23,7 +23,7 @@ class CarbonType extends Type
      */
     public function getName(): string
     {
-        return Type::DATETIME;
+        return 'carbon';
     }
 
     /**

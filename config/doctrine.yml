@@ -4,4 +4,4 @@ doctrine:
       carbon: datetime
 
     types:
-      carbon: Xgc\CarbonBundle\Type\CarbonType
+      carbon: Xgc\CarbonBundle\Doctrine\DBAL\Type\CarbonType

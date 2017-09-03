@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Type;
+namespace Tests\Unit\Doctrine\DBAL\Type;
 
 use Carbon\Carbon;
 use Doctrine\DBAL\Types\Type;
 use Faker\Factory;
 use Tests\Mock\MockPlatform;
+use Xgc\CarbonBundle\Doctrine\DBAL\Type\CarbonType;
 use Xgc\CarbonBundle\Test\TestCase;
-use Xgc\CarbonBundle\Type\CarbonType;
 
 /**
  * Class PhpConstantsTest

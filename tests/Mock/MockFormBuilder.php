@@ -615,7 +615,7 @@ class MockFormBuilder implements FormBuilderInterface, Iterator
     /**
      * @return int
      */
-    public function key()
+    public function key(): int
     {
         return 0;
     }

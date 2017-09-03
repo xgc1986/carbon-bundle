@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\Mock;
 
-use Carbon\Carbon;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**

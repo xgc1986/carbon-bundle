@@ -1,5 +1,3 @@
-services:
-  xgc.form_extension.carbon:
-    class: Xgc\CarbonBundle\Form\Extension\CarbonTypeExtension
-    tags:
-      - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateType }
+twig:
+  form_themes:
+    - 'CarbonBundle:form:fields.html.twig'

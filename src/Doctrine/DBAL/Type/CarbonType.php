@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Xgc\CarbonBundle\Type;
+namespace Xgc\CarbonBundle\Doctrine\DBAL\Type;
 
 use Carbon\Carbon;
 use DateTime;

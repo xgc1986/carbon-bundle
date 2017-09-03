@@ -61,7 +61,7 @@ class CarbonType extends DateTimeType
      * @param array                $options
      *
      * @throws InvalidArgumentException
-     * @throws \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     * @throws InvalidOptionsException
      * @throws \Symfony\Component\Form\Exception\UnexpectedTypeException
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -85,12 +85,7 @@ class CarbonType extends DateTimeType
         $calendar   = IntlDateFormatter::GREGORIAN;
         $pattern    = is_string($options['format']) ? $options['format'] : null;
 
-        if (!in_array($dateFormat, self::$acceptedFormats, true)) {
-            throw new InvalidOptionsException(
-                'The "date_format" option must be one of the IntlDateFormatter constants (FULL, LONG, MEDIUM, SHORT)
-                 or a string representing a custom format.'
-            );
-        }
+        $this->checkDateFormat($dateFormat);
 
         if ('single_text' === $options['widget']) {
             if (self::HTML5_FORMAT === $pattern) {
@@ -130,6 +125,32 @@ class CarbonType extends DateTimeType
                 ->add('time', TimeType::class, $timeOptions);
         }
 
+        $this->addModelTransformer($builder, $options, $parts);
+    }
+
+    /**
+     * @param int $format
+     *
+     * @throws InvalidOptionsException
+     */
+    private function checkDateFormat(int $format)
+    {
+        if (!in_array($format, self::$acceptedFormats, true)) {
+            throw new InvalidOptionsException(
+                'The "date_format" option must be one of the IntlDateFormatter constants (FULL, LONG, MEDIUM, SHORT)
+                 or a string representing a custom format.'
+            );
+        }
+    }
+
+    /**
+     * @param array $options
+     * @param array $parts
+     *
+     * @throws \Symfony\Component\Form\Exception\UnexpectedTypeException
+     */
+    private function addModelTransformer(FormBuilderInterface $builder, array $options, array $parts)
+    {
         if ('array' === $options['input']) {
             $builder->addModelTransformer(new ReversedTransformer(
                 new CarbonToArrayTransformer($options['model_timezone'], $options['model_timezone'], $parts)

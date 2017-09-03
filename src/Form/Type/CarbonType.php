@@ -5,6 +5,7 @@ namespace Xgc\CarbonBundle\Form\Type;
 
 use IntlDateFormatter;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Extension\Core\DataTransformer\ArrayToPartsTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DataTransformerChain;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer;
@@ -62,13 +63,11 @@ class CarbonType extends DateTimeType
      *
      * @throws InvalidArgumentException
      * @throws InvalidOptionsException
-     * @throws \Symfony\Component\Form\Exception\UnexpectedTypeException
+     * @throws UnexpectedTypeException
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $parts     = ['year', 'month', 'day', 'hour'];
-        $dateParts = ['year', 'month', 'day'];
-        $timeParts = ['hour'];
+        $parts = ['year', 'month', 'day', 'hour'];
 
         if ($options['with_minutes']) {
             $parts[]     = 'minute';
@@ -81,51 +80,89 @@ class CarbonType extends DateTimeType
         }
 
         $dateFormat = is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
-        $timeFormat = self::DEFAULT_TIME_FORMAT;
-        $calendar   = IntlDateFormatter::GREGORIAN;
-        $pattern    = is_string($options['format']) ? $options['format'] : null;
 
         $this->checkDateFormat($dateFormat);
 
         if ('single_text' === $options['widget']) {
-            if (self::HTML5_FORMAT === $pattern) {
-                $builder->addViewTransformer(new DateTimeToRfc3339Transformer(
-                    $options['model_timezone'],
-                    $options['view_timezone']
-                ));
-            } else {
-                $builder->addViewTransformer(new DateTimeToLocalizedStringTransformer(
-                    $options['model_timezone'],
-                    $options['view_timezone'],
-                    $dateFormat,
-                    $timeFormat,
-                    $calendar,
-                    $pattern
-                ));
-            }
+            $this->addSingleTextViewTransformer($builder, $options);
         } else {
-            $dateOptions = array_intersect_key($options, array_flip(self::$dateOptions));
-            $timeOptions = array_intersect_key($options, array_flip(self::$timeOptions));
-
-            $dateOptions['widget']         = $options['date_widget'] ?? null;
-            $timeOptions['widget']         = $options['time_widget'] ?? null;
-            $dateOptions['format']         = $options['date_format'] ?? null;
-            $dateOptions['input']          = $timeOptions['input'] = 'array';
-            $dateOptions['error_bubbling'] = $timeOptions['error_bubbling'] = true;
-
-            $builder
-                ->addViewTransformer(new DataTransformerChain([
-                    new CarbonToArrayTransformer($options['model_timezone'], $options['view_timezone'], $parts),
-                    new ArrayToPartsTransformer([
-                        'date' => $dateParts,
-                        'time' => $timeParts,
-                    ]),
-                ]))
-                ->add('date', DateType::class, $dateOptions)
-                ->add('time', TimeType::class, $timeOptions);
+            $this->addArrayViewTransformer($builder, $options);
         }
 
         $this->addModelTransformer($builder, $options, $parts);
+    }
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     *
+     * @throws UnexpectedTypeException
+     */
+    public function addArrayViewTransformer(FormBuilderInterface $builder, array $options)
+    {
+        if ($options['with_minutes']) {
+            $parts[]     = 'minute';
+            $timeParts[] = 'minute';
+        }
+
+        if ($options['with_seconds']) {
+            $parts[]     = 'second';
+            $timeParts[] = 'second';
+        }
+
+        $parts     = ['year', 'month', 'day', 'hour'];
+        $dateParts = ['year', 'month', 'day'];
+        $timeParts = ['hour'];
+
+        $dateOptions = array_intersect_key($options, array_flip(self::$dateOptions));
+        $timeOptions = array_intersect_key($options, array_flip(self::$timeOptions));
+
+        $dateOptions['widget']         = $options['date_widget'] ?? null;
+        $timeOptions['widget']         = $options['time_widget'] ?? null;
+        $dateOptions['format']         = $options['date_format'] ?? null;
+        $dateOptions['input']          = $timeOptions['input'] = 'array';
+        $dateOptions['error_bubbling'] = $timeOptions['error_bubbling'] = true;
+
+        $builder
+            ->addViewTransformer(new DataTransformerChain([
+                new CarbonToArrayTransformer($options['model_timezone'], $options['view_timezone'], $parts),
+                new ArrayToPartsTransformer([
+                    'date' => $dateParts,
+                    'time' => $timeParts,
+                ]),
+            ]))
+            ->add('date', DateType::class, $dateOptions)
+            ->add('time', TimeType::class, $timeOptions);
+    }
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     *
+     * @throws InvalidArgumentException
+     */
+    public function addSingleTextViewTransformer(FormBuilderInterface $builder, array $options)
+    {
+        $dateFormat = is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
+        $timeFormat = self::DEFAULT_TIME_FORMAT;
+        $calendar   = IntlDateFormatter::GREGORIAN;
+        $pattern    = is_string($options['format']) ? $options['format'] : null;
+
+        if (self::HTML5_FORMAT === $pattern) {
+            $builder->addViewTransformer(new DateTimeToRfc3339Transformer(
+                $options['model_timezone'],
+                $options['view_timezone']
+            ));
+        } else {
+            $builder->addViewTransformer(new DateTimeToLocalizedStringTransformer(
+                $options['model_timezone'],
+                $options['view_timezone'],
+                $dateFormat,
+                $timeFormat,
+                $calendar,
+                $pattern
+            ));
+        }
     }
 
     /**
@@ -144,10 +181,11 @@ class CarbonType extends DateTimeType
     }
 
     /**
-     * @param array $options
-     * @param array $parts
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     * @param array                $parts
      *
-     * @throws \Symfony\Component\Form\Exception\UnexpectedTypeException
+     * @throws UnexpectedTypeException
      */
     private function addModelTransformer(FormBuilderInterface $builder, array $options, array $parts)
     {

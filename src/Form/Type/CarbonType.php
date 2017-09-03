@@ -89,7 +89,7 @@ class CarbonType extends DateTimeType
      *
      * @throws InvalidArgumentException
      */
-    public function addViewTransformer(FormBuilderInterface $builder, array $options)
+    private function addViewTransformer(FormBuilderInterface $builder, array $options)
     {
         if ('single_text' === $options['widget']) {
             $this->addSingleTextViewTransformer($builder, $options);
@@ -104,7 +104,7 @@ class CarbonType extends DateTimeType
      *
      * @throws UnexpectedTypeException
      */
-    public function addArrayViewTransformer(FormBuilderInterface $builder, array $options)
+    private function addArrayViewTransformer(FormBuilderInterface $builder, array $options)
     {
         $parts     = ['year', 'month', 'day', 'hour'];
         $dateParts = ['year', 'month', 'day'];
@@ -147,7 +147,7 @@ class CarbonType extends DateTimeType
      *
      * @throws InvalidArgumentException
      */
-    public function addSingleTextViewTransformer(FormBuilderInterface $builder, array $options)
+    private function addSingleTextViewTransformer(FormBuilderInterface $builder, array $options)
     {
         $dateFormat = is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
         $timeFormat = self::DEFAULT_TIME_FORMAT;

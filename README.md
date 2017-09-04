@@ -4,7 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/xgc1986/carbon-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/xgc1986/carbon-bundle/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/xgc1986/carbon-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/xgc1986/carbon-bundle/?branch=master)
 
-# Xgc CarbonBundle
+# XgcCarbonBundle
 
 A bundle that integrates [Carbon from briannesbitt](https://github.com/briannesbitt/Carbon) into Symfony
 

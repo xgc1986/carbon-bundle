@@ -33,7 +33,7 @@
   "require": {
     "php": ">=7.1",
     "fzaninotto/faker": "^1.7",
-    "nesbot/carbon": "^1.22",
+    "nesbot/carbon": "^1.2",
     "symfony/symfony": "^3.3",
     "doctrine/doctrine-bundle": "^1.7",
     "sensio/framework-extra-bundle": "^3.0"

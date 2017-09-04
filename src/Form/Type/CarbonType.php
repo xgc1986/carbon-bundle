@@ -57,6 +57,10 @@ class CarbonType extends DateTimeType
         'invalid_message_parameters',
     ];
 
+    private $parts;
+    private $dateParts;
+    private $timeParts;
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -67,20 +71,32 @@ class CarbonType extends DateTimeType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $parts = ['year', 'month', 'day', 'hour'];
+        $this->initParts($options);
 
-        if ($options['with_minutes']) {
-            $parts[] = 'minute';
-        }
-
-        if ($options['with_seconds']) {
-            $parts[] = 'second';
-        }
+        $options['widget'] = $options['widget'] ?? 'choice';
 
         $dateFormat = is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
         $this->checkDateFormat($dateFormat);
         $this->addViewTransformer($builder, $options);
-        $this->addModelTransformer($builder, $options, $parts);
+        $this->addModelTransformer($builder, $options);
+    }
+
+    /**
+     * @param array $options
+     */
+    private function initParts(array $options)
+    {
+        $this->parts     = ['year', 'month', 'day', 'hour'];
+        $this->dateParts = ['year', 'month', 'day'];
+        $this->timeParts = ['hour'];
+
+        if ($options['with_minutes']) {
+            $this->parts[] = 'minute';
+        }
+
+        if ($options['with_seconds']) {
+            $this->parts[] = 'second';
+        }
     }
 
     /**
@@ -106,22 +122,6 @@ class CarbonType extends DateTimeType
      */
     private function addArrayViewTransformer(FormBuilderInterface $builder, array $options)
     {
-        $parts     = ['year', 'month', 'day', 'hour'];
-        $dateParts = ['year', 'month', 'day'];
-        $timeParts = ['hour'];
-
-        $options['widget'] = $options['widget'] ?? 'choice';
-
-        if ($options['with_minutes']) {
-            $parts[]     = 'minute';
-            $timeParts[] = 'minute';
-        }
-
-        if ($options['with_seconds']) {
-            $parts[]     = 'second';
-            $timeParts[] = 'second';
-        }
-
         $dateOptions = array_intersect_key($options, array_flip(self::$dateOptions));
         $timeOptions = array_intersect_key($options, array_flip(self::$timeOptions));
 
@@ -133,11 +133,8 @@ class CarbonType extends DateTimeType
 
         $builder
             ->addViewTransformer(new DataTransformerChain([
-                new CarbonToArrayTransformer($options['model_timezone'], $options['view_timezone'], $parts),
-                new ArrayToPartsTransformer([
-                    'date' => $dateParts,
-                    'time' => $timeParts,
-                ]),
+                new CarbonToArrayTransformer($options['model_timezone'], $options['view_timezone'], $this->parts),
+                new ArrayToPartsTransformer(['date' => $this->dateParts, 'time' => $this->timeParts,]),
             ]))
             ->add('date', DateType::class, $dateOptions)
             ->add('time', TimeType::class, $timeOptions);
@@ -191,15 +188,14 @@ class CarbonType extends DateTimeType
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
-     * @param array                $parts
      *
      * @throws UnexpectedTypeException
      */
-    private function addModelTransformer(FormBuilderInterface $builder, array $options, array $parts)
+    private function addModelTransformer(FormBuilderInterface $builder, array $options)
     {
         if ('array' === $options['input']) {
             $builder->addModelTransformer(new ReversedTransformer(
-                new CarbonToArrayTransformer($options['model_timezone'], $options['model_timezone'], $parts)
+                new CarbonToArrayTransformer($options['model_timezone'], $options['model_timezone'])
             ));
         } else {
             $builder->addModelTransformer(new CarbonToDateTimeTransformer());

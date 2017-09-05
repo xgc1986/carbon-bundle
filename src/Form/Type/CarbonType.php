@@ -195,7 +195,7 @@ class CarbonType extends DateTimeType
     {
         if ('array' === $options['input']) {
             $builder->addModelTransformer(new ReversedTransformer(
-                new CarbonToArrayTransformer($options['model_timezone'], $options['model_timezone'])
+                new CarbonToArrayTransformer($options['model_timezone'], $options['model_timezone'], $this->parts)
             ));
         } else {
             $builder->addModelTransformer(new CarbonToDateTimeTransformer());

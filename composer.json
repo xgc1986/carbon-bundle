@@ -54,11 +54,14 @@
   },
   "archive": {
     "exclude": [
-      "!vendor",
-      "tests",
-      "*phpunit.xml",
-      ".travis.yml",
-      "php-git-hooks.yml"
+      "/vendor",
+      "/tests",
+      "/phpunit.xml.dist",
+      "/.travis.yml",
+      "/php-git-hooks.yml",
+      "/docs",
+      "/README.md",
+      "/.scrutinizer.yml"
     ]
   }
 }

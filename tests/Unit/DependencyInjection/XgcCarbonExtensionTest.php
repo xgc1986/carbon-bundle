@@ -6,11 +6,14 @@ namespace Tests\Unit\DependencyInjection;
 use Carbon\Carbon;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Xgc\CarbonBundle\DependencyInjection\XgcCarbonExtension;
 
+/**
+ * Class XgcCarbonExtensionTest
+ * @package Tests\Unit\DependencyInjection
+ */
 class XgcCarbonExtensionTest extends AbstractExtensionTestCase
 {
 

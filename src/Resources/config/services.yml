@@ -5,7 +5,7 @@ services:
       - { name: request.param_converter, priority: -2, converter: carbon_converter }
 
   xgc.carbon.event.request:
-    class: Xgc\CarbonBundle\RequestListener
-      arguments: ["@service_container"]
-      tags:
-        - { name: kernel.event_subscriber }
+    class: Xgc\CarbonBundle\EventListener\RequestListener
+    arguments: ["@service_container"]
+    tags:
+      - { name: kernel.event_subscriber }

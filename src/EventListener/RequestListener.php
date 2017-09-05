@@ -31,7 +31,11 @@ class RequestListener implements EventSubscriberInterface
 
     public function onKernelRequest()
     {
-        Carbon::setLocale($this->container->getParameter('locale'));
+        $locale = $this->container->getParameter('locale');
+        $encoding = $this->container->getParameter('encoding');
+
+        \setlocale(\LC_TIME, "$locale.$encoding");
+        Carbon::setLocale("$locale.$encoding");
     }
 
     /**

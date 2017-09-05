@@ -17,12 +17,15 @@ class RequestListenerTest extends AbstractContainerBuilderTestCase
 
     public function testLocale()
     {
-        $this->container->setParameter('locale', 'es');
+        $this->container->setParameter('locale', 'ca_ES');
+        $this->container->setParameter('encoding', 'utf8');
         $this->container->setParameter('kernel.root_dir', __DIR__ . '/../../../app/');
         $event = new RequestListener($this->container);
         $event->onKernelRequest();
 
-        self::assertSame('es', Carbon::getLocale());
+        $carbon = new Carbon('2017-09-05');
+
+        self::assertSame('dimarts', $carbon->formatLocalized('%A'));
         self::assertSame([
             KernelEvents::CONTROLLER => [['onKernelRequest', 17]]
         ], RequestListener::getSubscribedEvents());

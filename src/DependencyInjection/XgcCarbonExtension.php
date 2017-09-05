@@ -22,7 +22,9 @@ class XgcCarbonExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        Carbon::setLocale($container->getParameter('locale'));
+        if (!$container->hasParameter('encoding')) {
+            $container->setParameter('encoding', 'utf8');
+        }
     }
 
     /**

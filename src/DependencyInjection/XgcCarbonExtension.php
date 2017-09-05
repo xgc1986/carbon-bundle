@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Xgc\CarbonBundle\DependencyInjection;
 
-use Carbon\Carbon;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;

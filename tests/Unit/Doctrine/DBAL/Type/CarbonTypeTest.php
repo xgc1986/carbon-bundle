@@ -26,7 +26,7 @@ class CarbonTypeTest extends TestCase
      */
     protected $type;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!Type::hasType('carbon')) {
             Type::addType('carbon', CarbonType::class);

@@ -31,7 +31,7 @@ class CarbonType extends DateTimeType
         IntlDateFormatter::FULL,
         IntlDateFormatter::LONG,
         IntlDateFormatter::MEDIUM,
-        IntlDateFormatter::SHORT,
+        IntlDateFormatter::SHORT
     ];
 
     private static $dateOptions = [
@@ -42,7 +42,7 @@ class CarbonType extends DateTimeType
         'translation_domain',
         'html5',
         'invalid_message',
-        'invalid_message_parameters',
+        'invalid_message_parameters'
     ];
 
     private static $timeOptions = [
@@ -54,7 +54,7 @@ class CarbonType extends DateTimeType
         'translation_domain',
         'html5',
         'invalid_message',
-        'invalid_message_parameters',
+        'invalid_message_parameters'
     ];
 
     private $parts;
@@ -75,7 +75,7 @@ class CarbonType extends DateTimeType
 
         $options['widget'] = $options['widget'] ?? 'choice';
 
-        $dateFormat = is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
+        $dateFormat = \is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
         $this->checkDateFormat($dateFormat);
         $this->addViewTransformer($builder, $options);
         $this->addModelTransformer($builder, $options);
@@ -122,8 +122,8 @@ class CarbonType extends DateTimeType
      */
     private function addArrayViewTransformer(FormBuilderInterface $builder, array $options)
     {
-        $dateOptions = array_intersect_key($options, array_flip(self::$dateOptions));
-        $timeOptions = array_intersect_key($options, array_flip(self::$timeOptions));
+        $dateOptions = \array_intersect_key($options, \array_flip(self::$dateOptions));
+        $timeOptions = \array_intersect_key($options, \array_flip(self::$timeOptions));
 
         $dateOptions['widget']         = $options['date_widget'] ?? $options['widget'];
         $timeOptions['widget']         = $options['time_widget'] ?? $options['widget'];
@@ -134,7 +134,7 @@ class CarbonType extends DateTimeType
         $builder
             ->addViewTransformer(new DataTransformerChain([
                 new CarbonToArrayTransformer($options['model_timezone'], $options['view_timezone'], $this->parts),
-                new ArrayToPartsTransformer(['date' => $this->dateParts, 'time' => $this->timeParts,]),
+                new ArrayToPartsTransformer(['date' => $this->dateParts, 'time' => $this->timeParts])
             ]))
             ->add('date', DateType::class, $dateOptions)
             ->add('time', TimeType::class, $timeOptions);
@@ -148,10 +148,10 @@ class CarbonType extends DateTimeType
      */
     private function addSingleTextViewTransformer(FormBuilderInterface $builder, array $options)
     {
-        $dateFormat = is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
+        $dateFormat = \is_int($options['date_format']) ? $options['date_format'] : self::DEFAULT_DATE_FORMAT;
         $timeFormat = self::DEFAULT_TIME_FORMAT;
         $calendar   = IntlDateFormatter::GREGORIAN;
-        $pattern    = is_string($options['format']) ? $options['format'] : null;
+        $pattern    = \is_string($options['format']) ? $options['format'] : null;
 
         if (self::HTML5_FORMAT === $pattern) {
             $builder->addViewTransformer(new DateTimeToRfc3339Transformer(
@@ -177,7 +177,7 @@ class CarbonType extends DateTimeType
      */
     private function checkDateFormat(int $format)
     {
-        if (!in_array($format, self::$acceptedFormats, true)) {
+        if (!\in_array($format, self::$acceptedFormats, true)) {
             throw new InvalidOptionsException(
                 'The "date_format" option must be one of the IntlDateFormatter constants (FULL, LONG, MEDIUM, SHORT)
                  or a string representing a custom format.'

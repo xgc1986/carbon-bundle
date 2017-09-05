@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Xgc\CarbonBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Xgc\CarbonBundle\DependencyInjection\XgcCarbonExtension;
 
 /**
  * Class XgcCarbonBundle
@@ -11,4 +12,12 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class XgcCarbonBundle extends Bundle
 {
+    /**
+     * @return mixed
+     */
+    public function getExtension()
+    {
+        $this->extension = $this->extension ?? new XgcCarbonExtension();
+        return $this->extension;
+    }
 }

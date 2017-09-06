@@ -23,7 +23,7 @@ You can use Carbon into:
 
 ## WIP
 
-* Add configuration for locale with symfony
+* ~~Add configuration for locale with symfony~~
 * Create "carbon_date" type (forms & doctrine)
 * ~~Build a stable version~~
 * ~~Add carbon for Symfony Forms~~

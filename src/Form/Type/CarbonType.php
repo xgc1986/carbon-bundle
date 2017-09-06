@@ -91,11 +91,13 @@ class CarbonType extends DateTimeType
         $this->timeParts = ['hour'];
 
         if ($options['with_minutes']) {
-            $this->parts[] = 'minute';
+            $this->parts[]     = 'minute';
+            $this->timeParts[] = 'minute';
         }
 
         if ($options['with_seconds']) {
-            $this->parts[] = 'second';
+            $this->parts[]     = 'second';
+            $this->timeParts[] = 'second';
         }
     }
 
@@ -125,9 +127,15 @@ class CarbonType extends DateTimeType
         $dateOptions = \array_intersect_key($options, \array_flip(self::$dateOptions));
         $timeOptions = \array_intersect_key($options, \array_flip(self::$timeOptions));
 
-        $dateOptions['widget']         = $options['date_widget'] ?? $options['widget'];
-        $timeOptions['widget']         = $options['time_widget'] ?? $options['widget'];
-        $dateOptions['format']         = $options['date_format'] ?? 'dd-MM-yyyy';
+        if (null !== $options['date_widget']) {
+            $dateOptions['widget'] = $options['date_widget'];
+        }
+        if (null !== $options['time_widget']) {
+            $timeOptions['widget'] = $options['time_widget'];
+        }
+        if (null !== $options['date_format']) {
+            $dateOptions['format'] = $options['date_format'];
+        }
         $dateOptions['input']          = $timeOptions['input'] = 'array';
         $dateOptions['error_bubbling'] = $timeOptions['error_bubbling'] = true;
 
@@ -195,7 +203,7 @@ class CarbonType extends DateTimeType
     {
         if ('array' === $options['input']) {
             $builder->addModelTransformer(new ReversedTransformer(
-                new CarbonToArrayTransformer($options['model_timezone'], $options['model_timezone'], $this->parts)
+                new CarbonToArrayTransformer($options['model_timezone'], $options['view_timezone'], $this->parts)
             ));
         } else {
             $builder->addModelTransformer(new CarbonToDateTimeTransformer());

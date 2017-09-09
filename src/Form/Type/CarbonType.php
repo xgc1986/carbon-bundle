@@ -109,7 +109,7 @@ class CarbonType extends DateTimeType
      */
     private function addViewTransformer(FormBuilderInterface $builder, array $options)
     {
-        if ('single_text' === $options['widget']) {
+        if ($options['widget'] === 'single_text') {
             $this->addSingleTextViewTransformer($builder, $options);
         } else {
             $this->addArrayViewTransformer($builder, $options);
@@ -127,15 +127,10 @@ class CarbonType extends DateTimeType
         $dateOptions = \array_intersect_key($options, \array_flip(self::$dateOptions));
         $timeOptions = \array_intersect_key($options, \array_flip(self::$timeOptions));
 
-        if (null !== $options['date_widget']) {
-            $dateOptions['widget'] = $options['date_widget'];
-        }
-        if (null !== $options['time_widget']) {
-            $timeOptions['widget'] = $options['time_widget'];
-        }
-        if (null !== $options['date_format']) {
-            $dateOptions['format'] = $options['date_format'];
-        }
+        $options['date_widget'] === null ?: $dateOptions['widget'] = $options['date_widget'];
+        $options['time_widget'] === null ?: $dateOptions['widget'] = $options['time_widget'];
+        $options['date_format'] === null ?: $dateOptions['format'] = $options['date_format'];
+
         $dateOptions['input']          = $timeOptions['input'] = 'array';
         $dateOptions['error_bubbling'] = $timeOptions['error_bubbling'] = true;
 
@@ -201,7 +196,7 @@ class CarbonType extends DateTimeType
      */
     private function addModelTransformer(FormBuilderInterface $builder, array $options)
     {
-        if ('array' === $options['input']) {
+        if ($options['input'] === 'array') {
             $builder->addModelTransformer(new ReversedTransformer(
                 new CarbonToArrayTransformer($options['model_timezone'], $options['view_timezone'], $this->parts)
             ));

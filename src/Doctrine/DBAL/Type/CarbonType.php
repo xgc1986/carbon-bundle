@@ -49,7 +49,7 @@ class CarbonType extends Type
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (null === $value) {
+        if ($value === null) {
             return $value;
         }
 
@@ -80,7 +80,8 @@ class CarbonType extends Type
             throw ConversionException::conversionFailedFormat(
                 $value,
                 $this->getName(),
-                $platform->getDateTimeFormatString()
+                $platform->getDateTimeFormatString(),
+                $e
             );
         }
 

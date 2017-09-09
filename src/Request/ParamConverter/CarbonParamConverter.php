@@ -55,7 +55,7 @@ class CarbonParamConverter implements ParamConverterInterface
      */
     public function supports(ParamConverter $configuration): bool
     {
-        if (null === $configuration->getClass()) {
+        if ($configuration->getClass() === null) {
             return false;
         }
 

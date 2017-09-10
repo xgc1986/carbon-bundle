@@ -1,7 +1,7 @@
 {
   "name": "xgc/carbon-bundle",
   "license": "MIT",
-  "description": "A doctrine adaptation of <a href='https://github.com/briannesbitt/Carbon' target='_blank'>nesbot/carbon</a>",
+  "description": "A doctrine adaptation of nesbot/carbon",
   "keywords": [
     "carbon",
     "symfony",

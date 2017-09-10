@@ -9,6 +9,8 @@ use Mockery;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Xgc\CarbonBundle\Form\Type\CarbonType;
 use Xgc\CarbonBundle\Test\TestCase;
 
@@ -84,7 +86,7 @@ class CarbonTypeTest extends TestCase
             'time_widget'    => TimeType::class,
             'model_timezone' => Factory::create()->timezone,
             'view_timezone'  => null,
-            'input'          => time()
+            'input'          => \time()
         ]);
 
         self::assertTrue(true);
@@ -121,5 +123,22 @@ class CarbonTypeTest extends TestCase
         ]);
 
         self::assertTrue(true);
+    }
+
+    public function testBuildView()
+    {
+        $formInterface = Mockery::mock(FormInterface::class);
+
+        $carbonType               = new CarbonType();
+        $formView                 = new FormView();
+        $options                  = [];
+        $options['html5']         = true;
+        $options['widget']        = 'single_text';
+        $formView->vars['widget'] = 'single_text';
+        $options['format']        = 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ';
+
+        $carbonType->buildView($formView, $formInterface, $options);
+
+        self::assertSame('datetime-local', $formView->vars['type']);
     }
 }

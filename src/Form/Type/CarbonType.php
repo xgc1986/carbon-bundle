@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\ReversedTransformer;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Xgc\CarbonBundle\Form\DataTransformer\CarbonToArrayTransformer;
@@ -202,6 +204,20 @@ class CarbonType extends DateTimeType
             ));
         } else {
             $builder->addModelTransformer(new CarbonToDateTimeTransformer());
+        }
+    }
+
+    /**
+     * @param FormView      $view
+     * @param FormInterface $form
+     * @param array         $options
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options): void
+    {
+        $view->vars['widget'] = $options['widget'];
+
+        if ($options['html5'] && $options['widget'] === 'single_text' && self::HTML5_FORMAT === $options['format']) {
+            $view->vars['type'] = 'datetime-local';
         }
     }
 }
